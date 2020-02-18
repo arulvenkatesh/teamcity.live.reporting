@@ -8,8 +8,13 @@ import org.testng.annotations.DataProvider;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty","teamcity","progress"},
-        features = "teamcity/live/reporting/*.feature"
+        plugin = {"teamcity",
+                "pretty",
+                "json:target/report.json",
+                "junit:target/cucumber-reports/Cucumber.xml",
+                "de.monochromata.cucumber.report.PrettyReports:target/pretty-cucumber"},
+        features = "teamcity/live/reporting/*.feature",
+        monochrome = true
         )
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
         @Override

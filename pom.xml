@@ -61,6 +61,13 @@
             <version>5.3.0</version>
             <scope>test</scope>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/de.monochromata.cucumber/reporting-plugin -->
+        <dependency>
+            <groupId>de.monochromata.cucumber</groupId>
+            <artifactId>reporting-plugin</artifactId>
+            <version>4.0.21</version>
+        </dependency>
+
     </dependencies>
 
     <build>
