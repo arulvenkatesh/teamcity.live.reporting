@@ -10,8 +10,7 @@ import org.testng.annotations.DataProvider;
                 "pretty",
                 "json:target/report.json",
                 "junit:target/cucumber-reports/Cucumber.xml",
-                "de.monochromata.cucumber.report.PrettyReports:target/pretty-cucumber"},
-        features = "teamcity/live/reporting/*.feature",
+                "de.monochromata.cucumber.report.PrettyReports:target/pretty-cucumber"}        
         monochrome = true
         )
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
