@@ -8,7 +8,7 @@ import org.testng.annotations.DataProvider;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        plugin = {"pretty","teamcity"},
+        plugin = {"pretty","teamcity","progress"},
         features = "teamcity/live/reporting/*.feature"
         )
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
