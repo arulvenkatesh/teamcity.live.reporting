@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite verbose="0" name="Failed suite [teamcity.live.reporting.RunCucumberTest]">
+  <test thread-count="5" verbose="0" name="Command line test(failed)">
+    <classes>
+      <class name="teamcity.live.reporting.RunCucumberTest">
+        <methods>
+          <include name="runScenario" invocation-numbers="1 5"/>
+          <include name="tearDownClass"/>
+          <include name="setUpClass"/>
+        </methods>
+      </class> <!-- teamcity.live.reporting.RunCucumberTest -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [teamcity.live.reporting.RunCucumberTest] -->

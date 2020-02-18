@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="2" ignored="0" total="9" passed="7">
+  <reporter-output>
+  </reporter-output>
+  <suite name="teamcity.live.reporting.RunCucumberTest" duration-ms="15395" started-at="2020-02-18T23:30:08 AEDT" finished-at="2020-02-18T23:30:24 AEDT">
+    <groups>
+      <group name="cucumber">
+        <method signature="AbstractTestNGCucumberTests.runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" class="io.cucumber.testng.AbstractTestNGCucumberTests"/>
+      </group> <!-- cucumber -->
+    </groups>
+    <test name="Command line test" duration-ms="15395" started-at="2020-02-18T23:30:08 AEDT" finished-at="2020-02-18T23:30:24 AEDT">
+      <class name="teamcity.live.reporting.RunCucumberTest">
+        <test-method status="PASS" signature="setUpClass()[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="setUpClass" is-config="true" duration-ms="101" started-at="2020-02-18T23:30:08 AEDT" finished-at="2020-02-18T23:30:08 AEDT">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpClass -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="129" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:09 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 1"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["First"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="127" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:09 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 3"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["First"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="FAIL" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="124" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:09 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 2"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["First"]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[Assertion will fail expected [false] but found [true]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.AssertionError: Assertion will fail expected [false] but found [true]
+at org.testng.Assert.fail(Assert.java:97)
+at org.testng.Assert.assertEqualsImpl(Assert.java:136)
+at org.testng.Assert.assertEquals(Assert.java:118)
+at org.testng.Assert.assertEquals(Assert.java:751)
+at teamcity.live.reporting.StepDefinitions.third_step_is_executed(StepDefinitions.java:37)
+at ✽.Test should fail(classpath:teamcity/live/reporting/First.feature:8)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.AssertionError -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="122" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:09 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 4"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["First"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="15118" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:24 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 1"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Second"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="FAIL" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="15118" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:24 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 2"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Second"]]>
+              </value>
+            </param>
+          </params>
+          <exception class="java.lang.AssertionError">
+            <message>
+              <![CDATA[Assertion will fail expected [false] but found [true]]]>
+            </message>
+            <full-stacktrace>
+              <![CDATA[java.lang.AssertionError: Assertion will fail expected [false] but found [true]
+at org.testng.Assert.fail(Assert.java:97)
+at org.testng.Assert.assertEqualsImpl(Assert.java:136)
+at org.testng.Assert.assertEquals(Assert.java:118)
+at org.testng.Assert.assertEquals(Assert.java:751)
+at teamcity.live.reporting.StepDefinitions.third_step_is_executed(StepDefinitions.java:37)
+at ✽.Test should fail(classpath:teamcity/live/reporting/Second.feature:10)
+]]>
+            </full-stacktrace>
+          </exception> <!-- java.lang.AssertionError -->
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="121" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:09 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 1"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Second"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="15118" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:24 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 3"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Second"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="runScenario(io.cucumber.testng.PickleWrapper, io.cucumber.testng.FeatureWrapper)[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="runScenario" duration-ms="15115" started-at="2020-02-18T23:30:09 AEDT" description="Runs Cucumber Scenarios" data-provider="scenarios" finished-at="2020-02-18T23:30:24 AEDT">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA["Scenario 4"]]>
+              </value>
+            </param>
+            <param index="1">
+              <value>
+                <![CDATA["Second"]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runScenario -->
+        <test-method status="PASS" signature="tearDownClass()[pri:0, instance:teamcity.live.reporting.RunCucumberTest@2d928643]" name="tearDownClass" is-config="true" duration-ms="11" started-at="2020-02-18T23:30:24 AEDT" finished-at="2020-02-18T23:30:24 AEDT">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- tearDownClass -->
+      </class> <!-- teamcity.live.reporting.RunCucumberTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- teamcity.live.reporting.RunCucumberTest -->
+</testng-results>

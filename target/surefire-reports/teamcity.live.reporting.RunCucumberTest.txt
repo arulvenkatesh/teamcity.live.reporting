@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: teamcity.live.reporting.RunCucumberTest
+-------------------------------------------------------------------------------
+Tests run: 9, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 15.936 sec <<< FAILURE!
+runScenario(teamcity.live.reporting.RunCucumberTest)  Time elapsed: 0.131 sec  <<< FAILURE!
+java.lang.AssertionError: Assertion will fail expected [false] but found [true]
+	at org.testng.Assert.fail(Assert.java:97)
+	at org.testng.Assert.assertEqualsImpl(Assert.java:136)
+	at org.testng.Assert.assertEquals(Assert.java:118)
+	at org.testng.Assert.assertEquals(Assert.java:751)
+	at teamcity.live.reporting.StepDefinitions.third_step_is_executed(StepDefinitions.java:37)
+	at ?.Test should fail(classpath:teamcity/live/reporting/First.feature:8)
+
+runScenario(teamcity.live.reporting.RunCucumberTest)  Time elapsed: 15.127 sec  <<< FAILURE!
+java.lang.AssertionError: Assertion will fail expected [false] but found [true]
+	at org.testng.Assert.fail(Assert.java:97)
+	at org.testng.Assert.assertEqualsImpl(Assert.java:136)
+	at org.testng.Assert.assertEquals(Assert.java:118)
+	at org.testng.Assert.assertEquals(Assert.java:751)
+	at teamcity.live.reporting.StepDefinitions.third_step_is_executed(StepDefinitions.java:37)
+	at ?.Test should fail(classpath:teamcity/live/reporting/Second.feature:10)
+
