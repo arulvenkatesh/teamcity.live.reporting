@@ -88,12 +88,12 @@ public class TeamCityPlugin implements EventListener {
 
     @Override
     public void setEventPublisher(EventPublisher publisher) {
-        publisher.registerHandlerFor(TestRunStarted.class, this::printTestRunStarted);
+        //publisher.registerHandlerFor(TestRunStarted.class, this::printTestRunStarted);
         publisher.registerHandlerFor(TestCaseStarted.class, this::printTestCaseStarted);
         //publisher.registerHandlerFor(TestStepStarted.class, this::printTestStepStarted);
         //publisher.registerHandlerFor(TestStepFinished.class, this::printTestStepFinished);
         publisher.registerHandlerFor(TestCaseFinished.class, this::printTestCaseFinished);
-        publisher.registerHandlerFor(TestRunFinished.class, this::printTestRunFinished);
+        //publisher.registerHandlerFor(TestRunFinished.class, this::printTestRunFinished);
         publisher.registerHandlerFor(SnippetsSuggestedEvent.class, this::handleSnippetSuggested);
         publisher.registerHandlerFor(EmbedEvent.class, this::handleEmbedEvent);
         publisher.registerHandlerFor(WriteEvent.class, this::handleWriteEvent);
