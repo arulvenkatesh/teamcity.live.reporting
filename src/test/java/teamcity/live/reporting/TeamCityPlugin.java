@@ -132,7 +132,9 @@ public class TeamCityPlugin implements EventListener {
         pushedNodes(newStack).forEach(node -> startNode(uri, timestamp, node));
         this.currentStack = newStack;
 
-        print(TEMPLATE_PROGRESS_TEST_STARTED, timestamp);
+        System.out.println(String.format("##teamcity[testStarted name='%s']",event.getTestCase().getName()));
+
+        //print(TEMPLATE_PROGRESS_TEST_STARTED, timestamp);
     }
 
     private void startNode(URI uri, String timestamp, Node node) {
@@ -334,12 +336,14 @@ public class TeamCityPlugin implements EventListener {
         switch (status){
             case FAILED:
                 String details = extractStackTrace(error);
-                print(TEMPLATE_TEST_FAILED, timestamp, duration, "Step failed", details, event.getTestCase().getName());
+                //print(TEMPLATE_TEST_FAILED, timestamp, duration, "Step failed", details, event.getTestCase().getName());
+                System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']",event.getTestCase().getName(),"Test failed",details));
                 break;
             default:
                 break;
         }
-        print(TEMPLATE_PROGRESS_TEST_FINISHED, timestamp);
+        //print(TEMPLATE_PROGRESS_TEST_FINISHED, timestamp);
+        System.out.println(String.format("##teamcity[testFinished name='%s']",event.getTestCase().getName()));
         finishNode(timestamp, currentStack.remove(currentStack.size() - 1));
     }
 
