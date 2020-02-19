@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 
 @CucumberOptions(
         plugin = {
-                "teamcity",
+                //"teamcity",
                 "pretty",
                 "json:target/report.json",
                 "junit:target/cucumber-reports/Cucumber.xml",
