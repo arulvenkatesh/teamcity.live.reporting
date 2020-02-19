@@ -42,6 +42,7 @@ public class StepDefinitions {
     public void fourth_step_is_executed() {
         System.out.println("Executing fourth_step_is_executed started");
         System.out.println("Executing fourth_step_is_executed finished");
+        /*
         System.out.println("##teamcity[testSuiteStarted name='suiteName']");
         System.out.println("##teamcity[testSuiteStarted name='nestedSuiteName']");
         System.out.println("##teamcity[testStarted name='package_or_namespace.ClassName.TestName']");
@@ -51,5 +52,6 @@ public class StepDefinitions {
         System.out.println("##teamcity[testFinished name='package_or_namespace.ClassName.TestName2']");
         System.out.println("##teamcity[testSuiteFinished name='nestedSuiteName']");
         System.out.println("##teamcity[testSuiteFinished name='suiteName']");
+         */
     }
 }
