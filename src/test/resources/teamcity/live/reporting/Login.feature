@@ -3,7 +3,7 @@ Feature: Login
   Scenario: Login Scenario 1
     Given Second step is executed
 
-  Scenario: Login Scenario 2
+  Scenario: Login Scenario should fail
     Given Second step is executed
     Then Test should fail
 

@@ -4,7 +4,7 @@ Feature: Welcome
     Given First step is executed
     Given Second step is executed
 
-  Scenario: Welcome Scenario 2
+  Scenario: Welcome Scenario 2 should fail
     Given First step is executed
     Given Second step is executed
     Then Test should fail
