@@ -107,10 +107,10 @@ public class TeamCityPlugin implements EventListener {
     }
 
     private void printTestCaseFinished(TestCaseFinished event) {
-        if (!event.getResult().getStatus().equals("PASSED")) {
+        if (event.getResult().getStatus().toString() != "PASSED") {
             Throwable error = event.getResult().getError();
-            //String details = extractStackTrace(error);
-            System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']", event.getTestCase().getName(), "Step failed", "test failed"));
+            String details = extractStackTrace(error);
+            System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']", event.getTestCase().getName(), "Step failed", details));
         }
         System.out.println(String.format("##teamcity[testFinished name='%s']", event.getTestCase().getName()));
     }
