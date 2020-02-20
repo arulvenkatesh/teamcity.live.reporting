@@ -94,25 +94,25 @@ public class TeamCityPlugin implements EventListener {
         publisher.registerHandlerFor(TestRunFinished.class, this::printTestRunFinished);
     }
 
-    private void printTestRunStarted(TestRunStarted  event){
-        System.out.println(String.format("##teamcity[testSuiteStarted name='%s']","Cucumber"));
+    private void printTestRunStarted(TestRunStarted event) {
+        System.out.println(String.format("##teamcity[testSuiteStarted name='%s']", "Cucumber"));
     }
 
-    private void printTestRunFinished(TestRunFinished  event){
-        System.out.println(String.format("##teamcity[testSuiteFinished name='%s']","Cucumber"));
+    private void printTestRunFinished(TestRunFinished event) {
+        System.out.println(String.format("##teamcity[testSuiteFinished name='%s']", "Cucumber"));
     }
 
-    private void printTestCaseStarted(TestCaseStarted  event){
-        System.out.println(String.format("##teamcity[testStarted name='%s']",event.getTestCase().getName()));
+    private void printTestCaseStarted(TestCaseStarted event) {
+        System.out.println(String.format("##teamcity[testStarted name='%s']", event.getTestCase().getName()));
     }
 
-    private void printTestCaseFinished(TestCaseFinished  event){
-        if (!event.getResult().getStatus().equals("PASSED")){
+    private void printTestCaseFinished(TestCaseFinished event) {
+        if (!event.getResult().getStatus().equals("PASSED")) {
             Throwable error = event.getResult().getError();
             String details = extractStackTrace(error);
-            System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']",event.getTestCase().getName(),"Step failed",details));
+            System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']", event.getTestCase().getName(), "Step failed", details));
         }
-        System.out.println(String.format("##teamcity[testFinished name='%s']",event.getTestCase().getName()));
+        System.out.println(String.format("##teamcity[testFinished name='%s']", event.getTestCase().getName()));
     }
 
     private String extractStackTrace(Throwable error) {
@@ -120,6 +120,5 @@ public class TeamCityPlugin implements EventListener {
         PrintStream printStream = new PrintStream(s);
         error.printStackTrace(printStream);
         return new String(s.toByteArray(), StandardCharsets.UTF_8);
-
-
     }
+}
