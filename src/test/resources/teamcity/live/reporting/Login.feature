@@ -1,14 +1,14 @@
-Feature: First
+Feature: Login
 
-  Scenario: Scenario 1
+  Scenario: Login Scenario 1
     Given Second step is executed
 
-  Scenario: Scenario 2
+  Scenario: Login Scenario 2
     Given Second step is executed
     Then Test should fail
 
-  Scenario: Scenario 3
+  Scenario: Login Scenario 3
     Given Second step is executed
 
-  Scenario: Scenario 4
+  Scenario: Login Scenario 4
     Given Second step is executed
