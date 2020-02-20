@@ -88,188 +88,31 @@ public class TeamCityPlugin implements EventListener {
 
     @Override
     public void setEventPublisher(EventPublisher publisher) {
-        //publisher.registerHandlerFor(TestRunStarted.class, this::printTestRunStarted);
+        publisher.registerHandlerFor(TestRunStarted.class, this::printTestRunStarted);
         publisher.registerHandlerFor(TestCaseStarted.class, this::printTestCaseStarted);
-        //publisher.registerHandlerFor(TestStepStarted.class, this::printTestStepStarted);
-        //publisher.registerHandlerFor(TestStepFinished.class, this::printTestStepFinished);
         publisher.registerHandlerFor(TestCaseFinished.class, this::printTestCaseFinished);
-        //publisher.registerHandlerFor(TestRunFinished.class, this::printTestRunFinished);
-        publisher.registerHandlerFor(SnippetsSuggestedEvent.class, this::handleSnippetSuggested);
-        publisher.registerHandlerFor(EmbedEvent.class, this::handleEmbedEvent);
-        publisher.registerHandlerFor(WriteEvent.class, this::handleWriteEvent);
-        publisher.registerHandlerFor(TestSourceRead.class, this::handleTestSourceRead);
+        publisher.registerHandlerFor(TestRunFinished.class, this::printTestRunFinished);
     }
 
-    private final FeatureParser featureParser = new FeatureParser(UUID::randomUUID);
-
-    private void handleTestSourceRead(TestSourceRead event) {
-        TestSourceReadResource source = new TestSourceReadResource(event);
-        featureParser.parseResource(source).ifPresent(feature ->
-                features.put(event.getUri(), feature)
-        );
+    private void printTestRunStarted(TestRunStarted  event){
+        System.out.println(String.format("##teamcity[testSuiteStarted name='%s']","Cucumber"));
     }
 
-    private void printTestRunStarted(TestRunStarted event) {
-        String timestamp = extractTimeStamp(event);
-        print(TEMPLATE_ENTER_THE_MATRIX, timestamp);
-        print(TEMPLATE_TEST_RUN_STARTED, timestamp);
-        print(TEMPLATE_PROGRESS_COUNTING_STARTED, timestamp);
+    private void printTestRunFinished(TestRunFinished  event){
+        System.out.println(String.format("##teamcity[testSuiteFinished name='%s']","Cucumber"));
     }
 
-    private String extractTimeStamp(Event event) {
-        ZonedDateTime date = event.getInstant().atZone(ZoneOffset.UTC);
-        return DATE_FORMAT.format(date);
-    }
-
-    private void printTestCaseStarted(TestCaseStarted event) {
-        TestCase testCase = event.getTestCase();
-        URI uri = testCase.getUri();
-        Feature feature = features.get(uri);
-        String timestamp = extractTimeStamp(event);
-
-        List<Node> newStack = extractStack(feature, testCase);
-        poppedNodes(newStack).forEach(node -> finishNode(timestamp, node));
-        pushedNodes(newStack).forEach(node -> startNode(uri, timestamp, node));
-        this.currentStack = newStack;
-
+    private void printTestCaseStarted(TestCaseStarted  event){
         System.out.println(String.format("##teamcity[testStarted name='%s']",event.getTestCase().getName()));
-
-        //print(TEMPLATE_PROGRESS_TEST_STARTED, timestamp);
     }
 
-    private void startNode(URI uri, String timestamp, Node node) {
-        String name = node.getName() == null ? node.getKeyWord() : node.getName();
-        String location = uri + ":" + node.getLocation().getLine();
-        print(TEMPLATE_TEST_SUITE_STARTED, timestamp, location, name);
-    }
-
-    private void finishNode(String timestamp, Node node) {
-        String name = node.getName() == null ? node.getKeyWord() : node.getName();
-        print(TEMPLATE_TEST_SUITE_FINISHED, timestamp, name);
-    }
-
-    private List<Node> poppedNodes(List<Node> newStack) {
-        List<Node> nodes = new ArrayList<>(reversedPoppedNodes(currentStack, newStack));
-        Collections.reverse(nodes);
-        return nodes;
-    }
-
-    private List<Node> reversedPoppedNodes(List<Node> currentStack, List<Node> newStack) {
-        for (int i = 0; i < currentStack.size() && i < newStack.size(); i++) {
-            if (!currentStack.get(i).equals(newStack.get(i))) {
-                return currentStack.subList(i, currentStack.size());
-            }
+    private void printTestCaseFinished(TestCaseFinished  event){
+        if (!event.getResult().getStatus().equals("PASSED")){
+            Throwable error = event.getResult().getError();
+            String details = extractStackTrace(error);
+            System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']",event.getTestCase().getName(),"Step failed",details));
         }
-        if (newStack.size() < currentStack.size()) {
-            return currentStack.subList(newStack.size(), currentStack.size());
-        }
-        return Collections.emptyList();
-    }
-
-    private List<Node> pushedNodes(List<Node> newStack) {
-        for (int i = 0; i < currentStack.size() && i < newStack.size(); i++) {
-            if (!currentStack.get(i).equals(newStack.get(i))) {
-                return newStack.subList(i, newStack.size());
-            }
-        }
-        if (newStack.size() < currentStack.size()) {
-            return Collections.emptyList();
-        }
-        return newStack.subList(currentStack.size(), newStack.size());
-    }
-
-    private List<Node> extractStack(Feature feature, TestCase testCase) {
-        List<Node> stack = new ArrayList<>();
-        findInFeature(stack, feature, testCase);
-        Collections.reverse(stack);
-        return stack;
-    }
-
-    private boolean findInFeature(List<Node> stack, Node node, TestCase testCase) {
-        if (node.getLocation().getLine() == testCase.getLine()) {
-            stack.add(node);
-            return true;
-        }
-
-        if (node instanceof Container) {
-            Container<Node> container = (Container<Node>) node;
-            for (Node child : container.children()) {
-                if (findInFeature(stack, child, testCase)) {
-                    stack.add(node);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    private void printTestStepStarted(TestStepStarted event) {
-        String timestamp = extractTimeStamp(event);
-        String name = extractName(event.getTestStep());
-        String location = extractLocation(event);
-        print(TEMPLATE_TEST_STARTED, timestamp, location, name);
-    }
-
-    private String extractLocation(TestStepStarted event) {
-        TestStep testStep = event.getTestStep();
-        if (testStep instanceof PickleStepTestStep) {
-            PickleStepTestStep pickleStepTestStep = (PickleStepTestStep) testStep;
-            return pickleStepTestStep.getUri() + ":" + pickleStepTestStep.getStep().getLine();
-        }
-        return extractSourceLocation(testStep);
-    }
-
-    private String extractSourceLocation(TestStep testStep) {
-
-        Matcher javaMatcher = ANNOTATION_GLUE_CODE_LOCATION_PATTERN.matcher(testStep.getCodeLocation());
-        if (javaMatcher.matches()) {
-            String fqDeclaringClassName = javaMatcher.group(1);
-            String methodName = javaMatcher.group(2);
-            return String.format("java:test://%s/%s", fqDeclaringClassName, methodName);
-        }
-        Matcher java8Matcher = LAMBDA_GLUE_CODE_LOCATION_PATTERN.matcher(testStep.getCodeLocation());
-        if (java8Matcher.matches()) {
-            String fqDeclaringClassName = java8Matcher.group(1);
-            String declaringClassName;
-            int indexOfPackageSeparator = fqDeclaringClassName.indexOf(".");
-            if (indexOfPackageSeparator != -1) {
-                declaringClassName = fqDeclaringClassName.substring(indexOfPackageSeparator + 1);
-            } else {
-                declaringClassName = fqDeclaringClassName;
-            }
-            return String.format("java:test://%s/%s", fqDeclaringClassName, declaringClassName);
-        }
-
-        return testStep.getCodeLocation();
-    }
-
-    private void printTestStepFinished(TestStepFinished event) {
-        String timeStamp = extractTimeStamp(event);
-        long duration = extractDuration(event.getResult());
-        String name = extractName(event.getTestStep());
-
-        Throwable error = event.getResult().getError();
-        Status status = event.getResult().getStatus();
-        switch (status) {
-            case SKIPPED:
-                print(TEMPLATE_TEST_IGNORED, timeStamp, duration, error == null ? "Step skipped" : error.getMessage(), name);
-                break;
-            case PENDING:
-                print(TEMPLATE_TEST_IGNORED, timeStamp, duration, error == null ? "Step pending" : error.getMessage(), name);
-                break;
-            case UNDEFINED:
-                PickleStepTestStep testStep = (PickleStepTestStep) event.getTestStep();
-                print(TEMPLATE_TEST_FAILED, timeStamp, duration, "Step undefined", getSnippet(testStep), name);
-                break;
-            case AMBIGUOUS:
-            case FAILED:
-                String details = extractStackTrace(error);
-                print(TEMPLATE_TEST_FAILED, timeStamp, duration, "Step failed", details, name);
-                break;
-            default:
-                break;
-        }
-        print(TEMPLATE_TEST_FINISHED, timeStamp, duration, name);
+        System.out.println(String.format("##teamcity[testFinished name='%s']",event.getTestCase().getName()));
     }
 
     private String extractStackTrace(Throwable error) {
@@ -277,128 +120,6 @@ public class TeamCityPlugin implements EventListener {
         PrintStream printStream = new PrintStream(s);
         error.printStackTrace(printStream);
         return new String(s.toByteArray(), StandardCharsets.UTF_8);
+
+
     }
-
-    private String extractName(TestStep step) {
-        if (step instanceof PickleStepTestStep) {
-            PickleStepTestStep pickleStepTestStep = (PickleStepTestStep) step;
-            return pickleStepTestStep.getStep().getText();
-        }
-        if (step instanceof HookTestStep) {
-            HookTestStep hook = (HookTestStep) step;
-            HookType hookType = hook.getHookType();
-            switch (hookType) {
-                case BEFORE:
-                    return "Before";
-                case AFTER:
-                    return "After";
-                case BEFORE_STEP:
-                    return "BeforeStep";
-                case AFTER_STEP:
-                    return "AfterStep";
-                default:
-                    return hookType.name().toLowerCase(Locale.US);
-            }
-        }
-        return "Unknown step";
-    }
-
-    private String getSnippet(PickleStepTestStep testStep) {
-        StringBuilder builder = new StringBuilder();
-
-        if (snippets.isEmpty()) {
-            return builder.toString();
-        }
-
-        snippets.stream()
-                .filter(snippet ->
-                        snippet.getStepLine() == testStep.getStep().getLine() &&
-                                snippet.getUri().equals(testStep.getUri())
-                )
-                .findFirst()
-                .ifPresent(event -> {
-                            builder.append("You can implement missing steps with the snippets below:\n");
-                            event.getSnippets().forEach(snippet -> {
-                                builder.append(snippet);
-                                builder.append("\n");
-                            });
-                        }
-                );
-        return builder.toString();
-    }
-
-    private void printTestCaseFinished(TestCaseFinished event) {
-        String timestamp = extractTimeStamp(event);
-        Status status = event.getResult().getStatus();
-        Throwable error = event.getResult().getError();
-        long duration = extractDuration(event.getResult());
-
-        switch (status){
-            case FAILED:
-                String details = extractStackTrace(error);
-                //print(TEMPLATE_TEST_FAILED, timestamp, duration, "Step failed", details, event.getTestCase().getName());
-                System.out.println(String.format("##teamcity[testFailed name='%s' message='%s' details='%s']",event.getTestCase().getName(),"Test failed",details));
-                break;
-            default:
-                break;
-        }
-        //print(TEMPLATE_PROGRESS_TEST_FINISHED, timestamp);
-        System.out.println(String.format("##teamcity[testFinished name='%s']",event.getTestCase().getName()));
-        finishNode(timestamp, currentStack.remove(currentStack.size() - 1));
-    }
-
-    private long extractDuration(Result result) {
-        return result.getDuration().toMillis();
-    }
-
-    private void printTestRunFinished(TestRunFinished event) {
-        String timestamp = extractTimeStamp(event);
-        print(TEMPLATE_PROGRESS_COUNTING_FINISHED, timestamp);
-
-        List<Node> emptyStack = new ArrayList<>();
-        poppedNodes(emptyStack).forEach(node -> finishNode(timestamp, node));
-        currentStack = emptyStack;
-
-        print(TEMPLATE_TEST_RUN_FINISHED, timestamp);
-    }
-
-    private void handleSnippetSuggested(SnippetsSuggestedEvent event) {
-        snippets.add(event);
-    }
-
-    private void handleEmbedEvent(EmbedEvent event) {
-        String name = event.getName() == null ? "" : event.getName() + " ";
-        print(TEMPLATE_EMBED_WRITE_EVENT, "Embed event: " + name + "[" + event.getMediaType() + " " + event.getData().length + " bytes]\n");
-    }
-
-    private void handleWriteEvent(WriteEvent event) {
-        print(TEMPLATE_EMBED_WRITE_EVENT, "Write event:\n" + event.getText() + "\n");
-    }
-
-    private void print(String command, Object... args) {
-        out.println(formatCommand(command, args));
-    }
-
-    private String formatCommand(String command, Object... parameters) {
-        String[] escapedParameters = new String[parameters.length];
-        for (int i = 0; i < escapedParameters.length; i++) {
-            escapedParameters[i] = escape(parameters[i].toString());
-        }
-
-        return String.format(command, escapedParameters);
-    }
-
-    private String escape(String source) {
-        if (source == null) {
-            return "";
-        }
-        return source
-                .replace("|", "||")
-                .replace("'", "|'")
-                .replace("\n", "|n")
-                .replace("\r", "|r")
-                .replace("[", "|[")
-                .replace("]", "|]");
-    }
-
-}
