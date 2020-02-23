@@ -1,0 +1,7 @@
+<suite name="Sample Test Suite">
+    <test name="Sample Test">
+        <classes>
+            <class name="teamcity.live.reporting.RunCucumberTest"/>
+        </classes>
+    </test>
+</suite>
