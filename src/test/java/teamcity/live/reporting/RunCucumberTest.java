@@ -5,6 +5,7 @@ import io.cucumber.testng.CucumberOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
+import org.testng.annotations.Listeners;
 
 @CucumberOptions(
         plugin = {
@@ -12,10 +13,12 @@ import org.testng.annotations.DataProvider;
                 "pretty",
                 "json:target/report.json",
                 "junit:target/cucumber-reports/Cucumber.xml",
-                "teamcity",
+                //"teamcity",
                 "de.monochromata.cucumber.report.PrettyReports:target/pretty-cucumber"},        
         monochrome = true
         )
+
+@Listeners(TestngPlugin.class)
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
         @Override
         @DataProvider(parallel = true)
