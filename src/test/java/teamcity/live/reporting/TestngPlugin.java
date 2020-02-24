@@ -16,7 +16,7 @@ public class TestngPlugin implements ITestListener {
     @Override
     public void onStart(ITestContext arg0) {
         System.out.println(String.format("##teamcity[testStarted name='%s' captureStandardOutput='true']", arg0.getName()));
-
+        System.out.println("Came to Onstart");
     }
 
     @Override
