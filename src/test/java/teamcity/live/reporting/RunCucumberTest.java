@@ -21,7 +21,7 @@ import org.testng.annotations.Listeners;
 @Listeners(TestngPlugin.class)
 public class RunCucumberTest extends AbstractTestNGCucumberTests {
         @Override
-        @DataProvider(parallel = true)
+        @DataProvider(parallel = false)
         public Object[][] scenarios() {
                 return super.scenarios();
         }
