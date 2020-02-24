@@ -92,6 +92,14 @@
                             <name>dataproviderthreadcount</name>
                             <value>10</value>
                         </property>
+                        <property>
+                            <name>disableXmlReport</name>
+                            <value>true</value>
+                        </property>
+                        <property>
+                            <name>statelessTestsetReporter</name>
+                            <value>true</value>
+                        </property>
                     </properties>
                 </configuration>
             </plugin>
